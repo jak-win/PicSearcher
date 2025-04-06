@@ -15,11 +15,14 @@ composeBom = "2024.04.01"
 navigationCompose = "2.5.3"
 navigationFragmentKtx = "2.5.3"
 retrofit = "2.9.0"
+roomVersion = "2.6.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationFragmentKtx" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomVersion" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomVersion" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -39,6 +42,7 @@ koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinAndr
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinAndroidxCompose" }
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

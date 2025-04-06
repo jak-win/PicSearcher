@@ -12,7 +12,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Share
@@ -72,7 +74,8 @@ fun DetailsScreen(viewModel: ImageViewModel) {
                 modifier = Modifier
                     .padding(9.dp)
                     .padding(top = 5.dp, bottom = 15.dp)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState()),
                 color = Constants.backgroundColor2,
                 shape = RoundedCornerShape(10.dp),
                 border = BorderStroke(3.dp, Color.White),

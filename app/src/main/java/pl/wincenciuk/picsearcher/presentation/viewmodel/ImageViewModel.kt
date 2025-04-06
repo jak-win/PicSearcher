@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import pl.wincenciuk.picsearcher.data.model.Hit
 import pl.wincenciuk.picsearcher.data.model.PixabayResponse
 import pl.wincenciuk.picsearcher.data.repository.ImageRepository
+import pl.wincenciuk.picsearcher.utils.Resource
 
 class ImageViewModel(private val repository: ImageRepository) : ViewModel() {
     private val _imagesData = MutableStateFlow<List<PixabayResponse>>(emptyList())
@@ -20,11 +21,17 @@ class ImageViewModel(private val repository: ImageRepository) : ViewModel() {
     val selectedItem: Flow<Hit?> = _selectedItem.asStateFlow()
 
     fun getImages(query: String) = viewModelScope.launch(Dispatchers.IO) {
-        val response = repository.getImages(query)
-        response.data?.hits?.let {
-            _imagesData.value = listOf(PixabayResponse(hits = it))
+        when (val response = repository.getImages(query)) {
+            is Resource.Success -> {
+                response.data?.hits?.let {
+                    _imagesData.value = listOf(PixabayResponse(hits = it))
+                }
+            }
+
+            is Resource.Error -> {
+                Log.e("ViewModel", "Error fetching images: ${response.message}")
+            }
         }
-        Log.d("ViewModel", response.data.toString())
     }
 
     fun setSelectedItem(item: Hit) {

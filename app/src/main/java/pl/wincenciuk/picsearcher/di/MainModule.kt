@@ -1,7 +1,10 @@
 package pl.wincenciuk.picsearcher.di
 
+import androidx.room.Room
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import pl.wincenciuk.picsearcher.data.local.ImageDatabase
 import pl.wincenciuk.picsearcher.data.repository.ImageRepository
 import pl.wincenciuk.picsearcher.data.repository.ImageRepositoryImpl
 import pl.wincenciuk.picsearcher.data.service.ApiService
@@ -19,8 +22,17 @@ val mainModule = module {
             .create(ApiService::class.java)
     }
 
+    single {
+        Room.databaseBuilder(
+            androidContext(),
+            ImageDatabase::class.java, "image-database"
+        ).build()
+    }
+
+    single { get<ImageDatabase>().imageDao() }
+
     single<ImageRepository> {
-        ImageRepositoryImpl(get())
+        ImageRepositoryImpl(get(), get())
     }
 
     viewModel {

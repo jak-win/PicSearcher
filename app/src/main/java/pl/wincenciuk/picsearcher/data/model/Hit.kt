@@ -1,10 +1,14 @@
 package pl.wincenciuk.picsearcher.data.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "hit")
 data class Hit(
+    @PrimaryKey val id: Int,
     val collections: Int,
     val comments: Int,
     val downloads: Int,
-    val id: Int,
     val imageHeight: Int,
     val imageSize: Int,
     val imageWidth: Int,
