@@ -21,6 +21,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,13 +33,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import pl.wincenciuk.picsearcher.data.model.Hit
+import pl.wincenciuk.picsearcher.presentation.viewmodel.ImageViewModel
 import pl.wincenciuk.picsearcher.utils.Constants
 
 @Composable
-fun DetailsScreen() {
+fun DetailsScreen(viewModel: ImageViewModel) {
     val context = LocalContext.current
-    val selectedItem = Hit(largeImageURL = "https://pixabay.com/get/gdf5fe04048b0cf022e5a5ed73874c688c86a3dee099e3275f5e48e8fc43d86ea40d665e25aa9ae587425c5fe453ff33cb60fe80a787e23fff26b8469585ca606_1280.jpg", "flower, flower2, flower3", "ziomo")
+    val selectedItem by viewModel.selectedItem.collectAsState(null)
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -46,7 +48,8 @@ fun DetailsScreen() {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(16.dp)
+                .padding(top = 10.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box(
@@ -57,12 +60,14 @@ fun DetailsScreen() {
                 AsyncImage(
                     modifier = Modifier.fillMaxSize(),
                     model = ImageRequest.Builder(context)
-                        .data(selectedItem.largeImageURL)
+                        .data(selectedItem?.largeImageURL)
                         .crossfade(true).build(),
                     contentDescription = null,
-                    contentScale = ContentScale.Fit
+                    contentScale = ContentScale.Crop
                 )
             }
+
+            Spacer(modifier = Modifier.height(20.dp))
             Surface(
                 modifier = Modifier
                     .padding(9.dp)
@@ -81,35 +86,43 @@ fun DetailsScreen() {
                 ) {
 
 
-            Text(
-                text = "Photo details",
-                modifier = Modifier
-                    .padding(4.dp)
-                    .align(Alignment.CenterHorizontally),
-                color = Color.White,
-                fontSize = 33.sp,
-                fontWeight = FontWeight.SemiBold
-            )
-            Text(text = "Username: ${selectedItem.user}", fontSize = 17.sp, color = Color.White)
-            Text(text = "Tags: ${selectedItem.tags}", fontSize = 17.sp, color = Color.White)
-
+                    Text(
+                        text = "Photo details",
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .align(Alignment.CenterHorizontally),
+                        color = Color.White,
+                        fontSize = 33.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                    Text(
+                        text = "Username: ${selectedItem?.user}",
+                        fontSize = 17.sp,
+                        color = Color.White
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(
+                        text = "Tags: ${selectedItem?.tags}",
+                        fontSize = 17.sp,
+                        color = Color.White
+                    )
                     Spacer(Modifier.height(20.dp))
 
-                Row(
-                    modifier = Modifier.padding(10.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    Icon(Icons.Outlined.Favorite, contentDescription = null)
-                    Text(text = "999")
-                    Spacer(modifier = Modifier.width(40.dp))
-                    Icon(Icons.Default.Edit, contentDescription = null)
-                    Text(text = "120")
-                    Spacer(modifier = Modifier.width(40.dp))
-                    Icon(Icons.Default.Share, contentDescription = null)
-                    Text(text = "100")
-                }
+                    Row(
+                        modifier = Modifier.padding(10.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        Icon(Icons.Outlined.Favorite, contentDescription = null)
+                        Text(text = "${selectedItem?.likes}")
+                        Spacer(modifier = Modifier.width(40.dp))
+                        Icon(Icons.Default.Edit, contentDescription = null)
+                        Text(text = "${selectedItem?.comments}")
+                        Spacer(modifier = Modifier.width(40.dp))
+                        Icon(Icons.Default.Share, contentDescription = null)
+                        Text(text = "${selectedItem?.downloads}")
                     }
+                }
             }
         }
     }

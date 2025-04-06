@@ -1,16 +1,19 @@
 package pl.wincenciuk.picsearcher.data.repository
 
-import pl.wincenciuk.picsearcher.data.model.Hit
+import pl.wincenciuk.picsearcher.data.model.PixabayResponse
 import pl.wincenciuk.picsearcher.data.service.ApiService
 import pl.wincenciuk.picsearcher.utils.Constants
+import pl.wincenciuk.picsearcher.utils.Resource
 
 class ImageRepositoryImpl(private val apiService: ApiService) : ImageRepository {
-    override suspend fun getImages(query: String): Result<List<Hit>> {
+
+    override suspend fun getImages(query: String): Resource<PixabayResponse> {
         return try {
             val response = apiService.getImages(query, Constants.API_KEY, "photo")
-            Result.success(response.hits)
+            Resource.Success(data = response)
         } catch (e: Exception) {
-            return Result.failure(e)
+            Resource.Error(e.message.toString())
         }
     }
 }
+

@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
 
-    fun getInstance(): Retrofit {
+    private fun getInstance(): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://pixabay.com/api/")
             .addConverterFactory(GsonConverterFactory.create())

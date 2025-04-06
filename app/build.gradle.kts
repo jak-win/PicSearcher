@@ -1,3 +1,5 @@
+import java.io.FileInputStream
+import java.util.Properties
 
 
 plugins {
@@ -10,6 +12,10 @@ android {
     namespace = "pl.wincenciuk.picsearcher"
     compileSdk = 35
 
+    val file = rootProject.file("local.properties")
+    val properties = Properties()
+    properties.load(FileInputStream(file))
+
     defaultConfig {
         applicationId = "pl.wincenciuk.picsearcher"
         minSdk = 24
@@ -18,7 +24,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField ("String", "API_KEY", "\"${properties["API_KEY"]}\"")
+        buildConfigField ("String", "API_KEY", properties.getProperty("API_KEY"))
     }
 
     buildTypes {
@@ -74,4 +80,8 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.navigation.compose)
+
+    // Koin
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
 }
