@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">PicSearcher</string>
+    <string name="search_text">Type in any word you want and I will display the images you are interested in!</string>
+    <string name="user_text">User: %1$s</string>
+    <string name="tags_text">Tags: %1$s</string>
+    <string name="dialog_question">Do you want to see details of this image?</string>
+    <string name="dialog_pos">Yes</string>
+    <string name="dialog_neg">No</string>
+    <string name="detail_header">Photo details</string>
 </resources>
