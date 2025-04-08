@@ -1,7 +1,7 @@
 # PicSearcher
 An application made in Kotlin, using Jetpack Compose and Pixabay API that allows users to search for any picture by entering keywords, and then displays detailed information about the selected picture after confirming the choice.
 
-## Snapshotes of the main application screens:
+## Snapshots of the main application screens:
 ### Main Screen:
 <img src="https://github.com/user-attachments/assets/053e3056-d685-4464-9bc2-346b4e7f71b2"
  width= 216 height= 468>
