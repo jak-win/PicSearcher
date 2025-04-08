@@ -9,13 +9,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import pl.wincenciuk.picsearcher.data.model.Hit
-import pl.wincenciuk.picsearcher.data.model.PixabayResponse
 import pl.wincenciuk.picsearcher.data.repository.ImageRepository
 import pl.wincenciuk.picsearcher.utils.Resource
 
 class ImageViewModel(private val repository: ImageRepository) : ViewModel() {
-    private val _imagesData = MutableStateFlow<List<PixabayResponse>>(emptyList())
-    val imagesData: Flow<List<PixabayResponse>> = _imagesData.asStateFlow()
+    private val _imagesData = MutableStateFlow<List<Hit>>(emptyList())
+    val imagesData: Flow<List<Hit>> = _imagesData.asStateFlow()
 
     private val _selectedItem = MutableStateFlow<Hit?>(null)
     val selectedItem: Flow<Hit?> = _selectedItem.asStateFlow()
@@ -24,7 +23,7 @@ class ImageViewModel(private val repository: ImageRepository) : ViewModel() {
         when (val response = repository.getImages(query)) {
             is Resource.Success -> {
                 response.data?.hits?.let {
-                    _imagesData.value = listOf(PixabayResponse(hits = it))
+                    _imagesData.value = it
                 }
             }
 

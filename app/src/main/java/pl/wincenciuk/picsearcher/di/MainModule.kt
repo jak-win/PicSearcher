@@ -14,7 +14,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 val mainModule = module {
     single {
-//        RetrofitInstance.getApiService()
         Retrofit.Builder()
             .baseUrl("https://pixabay.com/")
             .addConverterFactory(GsonConverterFactory.create())

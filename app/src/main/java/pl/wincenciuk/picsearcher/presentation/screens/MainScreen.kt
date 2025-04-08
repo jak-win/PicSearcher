@@ -67,7 +67,6 @@ import pl.wincenciuk.picsearcher.utils.Constants
 @Composable
 fun MainScreen(navController: NavController, viewModel: ImageViewModel) {
     var searchText by rememberSaveable { mutableStateOf("fruits") }
-//    val viewModel = getViewModel<ImageViewModel>()
     val imageData = viewModel.imagesData.collectAsState(emptyList())
     val selectedItem = remember { mutableStateOf<Hit?>(null) }
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -85,8 +84,7 @@ fun MainScreen(navController: NavController, viewModel: ImageViewModel) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
-                .padding(top = 20.dp)
-                .verticalScroll(rememberScrollState()),
+                .padding(top = 10.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Surface(
@@ -124,7 +122,8 @@ fun MainScreen(navController: NavController, viewModel: ImageViewModel) {
                             value = searchText,
                             onValueChange = { searchText = it },
                             modifier = Modifier
-                                .padding(10.dp).testTag("searchTextField"),
+                                .padding(10.dp)
+                                .testTag("searchTextField"),
                             shape = RoundedCornerShape(16.dp),
                             leadingIcon = {
                                 Icon(
@@ -148,34 +147,30 @@ fun MainScreen(navController: NavController, viewModel: ImageViewModel) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
 
             ) {
-                imageData.value.forEach { response ->
-                    response.hits.forEach { item ->
-                        ImageItemCard(
-                            item = item
-                        )
-                        {
-                            selectedItem.value = item
-                            viewModel.setSelectedItem(item)
-                            showDialog.value = true
-                        }
+                imageData.value.forEach { item ->
+                    ImageItemCard(item) {
+                        selectedItem.value = item
+                        viewModel.setSelectedItem(item)
+                        showDialog.value = true
                     }
                 }
             }
         }
-        if (showDialog.value) {
-            ConfirmationDialog(
-                showDialog,
-                onConfirm = {
-                    selectedItem.value?.let { viewModel.setSelectedItem(it) }
-                    navController.navigate(AppScreens.DetailsScreen.name)
-                },
-                onDismiss = {
-                    showDialog.value = false
-                }
-            )
-        }
+    }
+    if (showDialog.value) {
+        ConfirmationDialog(
+            showDialog,
+            onConfirm = {
+                selectedItem.value?.let { viewModel.setSelectedItem(it) }
+                navController.navigate(AppScreens.DetailsScreen.name)
+            },
+            onDismiss = {
+                showDialog.value = false
+            }
+        )
     }
 }
 
@@ -260,7 +255,8 @@ fun ConfirmationDialog(
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
                     text = stringResource(R.string.dialog_question),
-                    color = Color.White)
+                    color = Color.White
+                )
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(horizontalArrangement = Arrangement.End) {
                     TextButton(
